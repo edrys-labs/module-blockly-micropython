@@ -1,0 +1,156 @@
+/* author `display` rules would otherwise override the hidden attribute */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* toolbar, editor, error banner, footer; no title, the frame shows the name */
+body {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#editor {
+  height: 100%;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 16px 18px;
+  color: var(--edrys-muted);
+  opacity: 0;
+  animation: show-loading 0s 0.5s forwards;
+}
+@keyframes show-loading {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------- toolbar */
+
+.modes {
+  display: flex;
+  gap: 0;
+}
+.modes button {
+  margin: 0;
+  border-radius: 0;
+}
+.modes button:first-child {
+  border-radius: 7px 0 0 7px;
+}
+.modes button:last-child {
+  border-radius: 0 7px 7px 0;
+}
+.modes button[aria-pressed='true'] {
+  background: var(--edrys-primary);
+  color: var(--edrys-on-primary);
+}
+.edrys-toolbar button {
+  white-space: nowrap;
+}
+
+/* labels give way to the icons in narrow tiles */
+@media (max-width: 480px) {
+  .label {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- errors */
+
+#errors {
+  padding: 8px 18px;
+  background: var(--edrys-error-pill);
+  color: var(--edrys-on-error-pill);
+  font-size: 14px;
+  max-height: 30%;
+  overflow: auto;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.edrys-footer {
+  /* water.css gives footers a top margin */
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------------------------------------------------------------- BlockMirror */
+
+/* the views sit side by side (BlockMirror floats them); no gaps or borders */
+#editor > div {
+  margin: 0;
+}
+.blocklyToolboxDiv {
+  border-right: 1px solid var(--edrys-line);
+}
+.blocklyTreeLabel {
+  font-family: var(--edrys-font);
+}
+
+/* the text view next to the blocks */
+.CodeMirror {
+  height: 100%;
+  font-family: var(--edrys-mono);
+  font-size: 13px;
+  border-left: 1px solid var(--edrys-line);
+}
+
+/* CodeMirror 5 theme on the classroom's colours; switches with the theme */
+.cm-s-edrys.CodeMirror {
+  background: var(--edrys-code-bg);
+  color: var(--edrys-code-text);
+}
+.cm-s-edrys .CodeMirror-gutters {
+  background: var(--edrys-code-bg);
+  border-right: 1px solid var(--edrys-line);
+}
+.cm-s-edrys .CodeMirror-linenumber {
+  color: var(--edrys-line-number);
+}
+.cm-s-edrys .CodeMirror-cursor {
+  border-left-color: var(--edrys-code-text);
+}
+.cm-s-edrys .CodeMirror-selected,
+.cm-s-edrys.CodeMirror-focused .CodeMirror-selected {
+  background: var(--edrys-selection);
+}
+.cm-s-edrys .cm-keyword,
+.cm-s-edrys .cm-builtin {
+  color: var(--edrys-keyword);
+}
+.cm-s-edrys .cm-number {
+  color: var(--edrys-number);
+}
+.cm-s-edrys .cm-string {
+  color: var(--edrys-ok);
+}
+.cm-s-edrys .cm-comment {
+  color: var(--edrys-muted);
+  font-style: italic;
+}
+.cm-s-edrys .cm-def,
+.cm-s-edrys .cm-variable-2 {
+  color: var(--edrys-link);
+}

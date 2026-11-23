@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blockly MicroPython</title>
+    <meta
+      name="description"
+      content="Program the Calliope mini 3 in MicroPython with blocks, as text, or both side by side: a change in the blocks rewrites the Python, a change in the Python rebuilds the blocks. With synchronize, everyone in a room edits one program together; the run button sends the Python to the room, e.g. to module-micropython-simulator or a terminal at the station. Configuration options:<br><br><a href='https://github.com/edrys-labs/module-blockly-micropython' target='_blank'>https://github.com/edrys-labs/module-blockly-micropython</a>"
+    />
+    <meta name="show-in" content="*" />
+    <meta name="icon" content="mdi-puzzle" />
+    <link rel="icon" href="data:," />
+    <meta
+      name="module-config"
+      content="{
+        'config': {
+          'code': {
+            'type': 'code-area',
+            'hint': 'MicroPython program the room (or each person, without synchronize) starts with. Empty: start with an empty program.'
+          },
+          'synchronize': {
+            'type': 'boolean',
+            'hint': 'Share one program across all peers in the room, edited together; otherwise each peer builds their own copy, kept in their browser'
+          },
+          'mode': {
+            'type': 'select',
+            'options': ['split', 'block', 'text'],
+            'hint': 'View the editor opens with: blocks and Python side by side (default), blocks only, or Python only. Everyone can switch.'
+          },
+          'runCommand': {
+            'type': 'string',
+            'hint': 'Subject the run button sends the Python code with (default: execute)'
+          }
+        }
+      }"
+    />
+
+    <script src="https://edrys-labs.github.io/module/edrys.js"></script>
+    <link rel="stylesheet" href="https://edrys-labs.github.io/module/vendor/water.min.css" />
+    <link rel="stylesheet" href="https://edrys-labs.github.io/module/vendor/open-iconic/css/open-iconic.min.css" />
+    <link rel="stylesheet" href="vendor/codemirror/codemirror.css" />
+    <link rel="stylesheet" href="vendor/block-mirror/block_mirror.css" />
+    <!-- the classroom's light or dark theme; after water.css and the widgets' CSS -->
+    <link rel="stylesheet" href="https://edrys-labs.github.io/module/edrys-module.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Blockly 10.4.3, CodeMirror 5, Skulpt's parser and BlockMirror, in this order -->
+    <script src="vendor/blockly/blockly_compressed.js"></script>
+    <script src="vendor/blockly/blocks_compressed.js"></script>
+    <script src="vendor/blockly/python_compressed.js"></script>
+    <script src="vendor/blockly/msg/en.js"></script>
+    <script src="vendor/codemirror/codemirror.js"></script>
+    <script src="vendor/codemirror/python.js"></script>
+    <script src="vendor/block-mirror/skulpt_parser.js"></script>
+    <script src="vendor/block-mirror/block_mirror.js"></script>
+    <script src="js/calliope.js"></script>
+  </head>
+
+  <body>
+    <header class="edrys-toolbar">
+      <span id="status" class="edrys-pill warn" role="status">Connecting&hellip;</span>
+      <span class="edrys-spacer"></span>
+      <div class="modes" role="group" aria-label="View">
+        <button type="button" data-mode="block" aria-pressed="false" title="Blocks only">
+          <span class="oi" data-glyph="puzzle-piece" aria-hidden="true"></span><span class="label"> Blocks</span>
+        </button>
+        <button type="button" data-mode="split" aria-pressed="true" title="Blocks and Python side by side">
+          <span class="oi" data-glyph="grid-two-up" aria-hidden="true"></span><span class="label"> Both</span>
+        </button>
+        <button type="button" data-mode="text" aria-pressed="false" title="Python only">
+          <span class="oi" data-glyph="code" aria-hidden="true"></span><span class="label"> Python</span>
+        </button>
+      </div>
+      <button type="button" id="reset" disabled title="Back to the start program from the module settings">
+        <span class="oi" data-glyph="reload" aria-hidden="true"></span><span class="label"> Reset</span>
+      </button>
+    </header>
+
+    <main>
+      <div id="editor"></div>
+      <p id="loading" class="loading">Loading&hellip;</p>
+    </main>
+
+    <div id="errors" role="alert" hidden></div>
+
+    <footer class="edrys-footer">
+      <button type="button" id="run" class="primary" disabled>
+        <span class="oi" data-glyph="media-play" aria-hidden="true"></span> Run
+      </button>
+    </footer>
+
+    <script src="js/editor.js"></script>
+    <script src="js/edrys.js"></script>
+  </body>
+</html>
