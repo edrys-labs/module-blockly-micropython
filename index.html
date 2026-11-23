@@ -6,7 +6,7 @@
     <title>Blockly MicroPython</title>
     <meta
       name="description"
-      content="Program the Calliope mini 3 in MicroPython with blocks, as text, or both side by side: a change in the blocks rewrites the Python, a change in the Python rebuilds the blocks. With synchronize, everyone in a room edits one program together; the run button sends the Python to the room, e.g. to module-micropython-simulator or a terminal at the station. Configuration options:<br><br><a href='https://github.com/edrys-labs/module-blockly-micropython' target='_blank'>https://github.com/edrys-labs/module-blockly-micropython</a>"
+      content="Program MicroPython boards (Calliope mini, micro:bit, or any board) with blocks, as text, or both side by side: a change in the blocks rewrites the Python, a change in the Python rebuilds the blocks. With synchronize, everyone in a room edits one program together; the run button sends the Python to the room, e.g. to module-micropython-simulator or a terminal at the station. Configuration options:<br><br><a href='https://github.com/edrys-labs/module-blockly-micropython' target='_blank'>https://github.com/edrys-labs/module-blockly-micropython</a>"
     />
     <meta name="show-in" content="*" />
     <meta name="icon" content="mdi-puzzle" />
@@ -15,6 +15,11 @@
       name="module-config"
       content="{
         'config': {
+          'board': {
+            'type': 'select',
+            'options': ['calliope', 'microbit', 'generic'],
+            'hint': 'Board the blocks are for: Calliope mini (default), BBC micro:bit, or generic (any MicroPython board: Python blocks, time and machine.Pin)'
+          },
           'code': {
             'type': 'code-area',
             'hint': 'MicroPython program the room (or each person, without synchronize) starts with. Empty: start with an empty program.'
@@ -45,7 +50,7 @@
     <link rel="stylesheet" href="https://edrys-labs.github.io/module/edrys-module.css" />
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- Blockly 10.4.3, CodeMirror 5, Skulpt's parser and BlockMirror, in this order -->
+    <!-- Blockly 10.4.3, CodeMirror 5, Skulpt's parser and BlockMirror, in this order, then the boards -->
     <script src="vendor/blockly/blockly_compressed.js"></script>
     <script src="vendor/blockly/blocks_compressed.js"></script>
     <script src="vendor/blockly/python_compressed.js"></script>
@@ -54,7 +59,10 @@
     <script src="vendor/codemirror/python.js"></script>
     <script src="vendor/block-mirror/skulpt_parser.js"></script>
     <script src="vendor/block-mirror/block_mirror.js"></script>
-    <script src="js/calliope.js"></script>
+    <script src="js/boards/common.js"></script>
+    <script src="js/boards/calliope.js"></script>
+    <script src="js/boards/microbit.js"></script>
+    <script src="js/boards/generic.js"></script>
   </head>
 
   <body>

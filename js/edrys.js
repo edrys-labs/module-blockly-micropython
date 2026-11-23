@@ -1,7 +1,7 @@
 /**
- * The Edrys layer: the room's shared program (with config.synchronize) or
- * each peer's own copy, the status pill, the run button and Reset.
- * Loaded after js/editor.js.
+ * The Edrys layer: the settings, the room's shared program (with
+ * config.synchronize) or each peer's own copy, the status pill, the run
+ * button and Reset. Loaded after js/editor.js.
  */
 ;(function () {
   const BM = window.BlocklyMicroPython
@@ -9,6 +9,10 @@
   // The run button sends the Python code with this subject, unless
   // config.runCommand names another.
   const DEFAULT_RUN_SUBJECT = 'execute'
+
+  // The board whose toolbox the editor shows, unless config.board names another
+  const DEFAULT_BOARD = 'calliope'
+  const MODES = ['split', 'block', 'text']
 
   // Room state keys: the shared program and the config.code it started from
   const STATE_CODE = 'blocklyMicroPython.code'
@@ -47,7 +51,6 @@
   window.addEventListener('blockly-micropython-error', () => setStatus())
   setStatus()
 
-  if (!BM) return
   const { showError } = BM
 
   // ---------------------------------------------------------------- start
@@ -63,10 +66,18 @@
     const startCode = typeof config.code === 'string' ? config.code : ''
     const runSubject = config.runCommand || DEFAULT_RUN_SUBJECT
 
-    if (config.mode) {
-      if (['split', 'block', 'text'].includes(config.mode)) BM.setMode(config.mode)
-      else showError('Unknown mode "' + config.mode + '" in the module settings. Known modes: split, block, text.')
+    const boards = BlocklyMicroPythonBoards.names()
+    let board = config.board || DEFAULT_BOARD
+    if (!boards.includes(board)) {
+      showError('Unknown board "' + board + '" in the module settings. Known boards: ' + boards.join(', ') + '.')
+      board = DEFAULT_BOARD
     }
+    let mode = config.mode || 'split'
+    if (!MODES.includes(mode)) {
+      showError('Unknown mode "' + mode + '" in the module settings. Known modes: ' + MODES.join(', ') + '.')
+      mode = 'split'
+    }
+    if (!BM.start(board, mode)) return
 
     if (config.synchronize === true) startShared(startCode)
     else startLocal(startCode)
